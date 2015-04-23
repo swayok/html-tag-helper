@@ -1,6 +1,6 @@
 <?php
 
-namespace Html\Form;
+namespace Swayok\Html\Form;
 
 /**
  * Used to place custom content into form

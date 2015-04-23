@@ -1,6 +1,6 @@
 <?php
 
-namespace Html;
+namespace Swayok\Html;
 
 class ImagePreview extends Tag{
     public $tagName = 'div';

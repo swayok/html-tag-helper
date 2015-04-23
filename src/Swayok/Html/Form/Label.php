@@ -1,8 +1,8 @@
 <?php
 
-namespace Html\Form;
+namespace Swayok\Html\Form;
 
-use Html\Tag;
+use Swayok\Html\Tag;
 
 class Label extends Tag {
     public $tagName = 'label';

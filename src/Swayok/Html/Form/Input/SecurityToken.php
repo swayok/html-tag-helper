@@ -1,8 +1,8 @@
 <?php
 
-namespace Html\Form\Input;
+namespace Swayok\Html\Form\Input;
 
-use Html\Security;
+use Swayok\Html\Security;
 
 class SecurityToken extends Hidden {
 

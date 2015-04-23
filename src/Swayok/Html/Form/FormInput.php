@@ -1,8 +1,8 @@
 <?php
 
-namespace Html\Form;
+namespace Swayok\Html\Form;
 
-use Html\Tag;
+use Swayok\Html\Tag;
 
 class FormInput extends Tag {
     public $tagName = 'input';

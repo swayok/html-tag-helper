@@ -1,7 +1,7 @@
 <?php
 
-namespace Html\Form\Input;
-use Html\HtmlTagException;
+namespace Swayok\Html\Form\Input;
+use Swayok\Html\HtmlTagException;
 
 /**
  * Class FormDate

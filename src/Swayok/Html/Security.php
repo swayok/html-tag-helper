@@ -1,6 +1,6 @@
 <?php
 
-namespace Html;
+namespace Swayok\Html;
 
 use App\Utils\Cookie;
 

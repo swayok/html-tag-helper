@@ -1,10 +1,10 @@
 <?php
 
-namespace Html\Form\Input;
+namespace Swayok\Html\Form\Input;
 
-use Html\Form\Form;
-use Html\Form\FormInput;
-use Html\ImagePreview;
+use Swayok\Html\Form\Form;
+use Swayok\Html\Form\FormInput;
+use Swayok\Html\ImagePreview;
 
 class Image extends FormInput {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Html;
+namespace Swayok\Html;
 
 /**
  * Class Tag

@@ -1,6 +1,6 @@
 <?php
 
-namespace Html\Form\Input;
+namespace Swayok\Html\Form\Input;
 
 abstract class TimeBase extends DateTimeBase {
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Html\Form\Input;
+namespace Swayok\Html\Form\Input;
 
-use Html\Form\FormInput;
-use Html\Form\Label;
+use Swayok\Html\Form\FormInput;
+use Swayok\Html\Form\Label;
 
 class Radios extends FormInput {
 

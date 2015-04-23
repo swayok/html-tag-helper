@@ -1,8 +1,8 @@
 <?php
 
-namespace Html\Form\Input;
+namespace Swayok\Html\Form\Input;
 
-use Html\Form\FormInput;
+use Swayok\Html\Form\FormInput;
 
 abstract class DateTimeBase extends FormInput {
 

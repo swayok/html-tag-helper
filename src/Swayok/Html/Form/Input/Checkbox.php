@@ -1,9 +1,9 @@
 <?php
 
-namespace Html\Form\Input;
+namespace Swayok\Html\Form\Input;
 
-use Html\Form\Form;
-use Html\Form\FormInput;
+use Swayok\Html\Form\Form;
+use Swayok\Html\Form\FormInput;
 
 class Checkbox extends FormInput {
 

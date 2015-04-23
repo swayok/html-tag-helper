@@ -1,24 +1,24 @@
 <?php
 
-namespace Html\Form;
+namespace Swayok\Html\Form;
 
-use Html\Form\Input\Captcha;
-use Html\Form\Input\Checkbox;
-use Html\Form\Input\Date;
-use Html\Form\Input\DateRange;
-use Html\Form\Input\File;
-use Html\Form\Input\Hidden;
-use Html\Form\Input\Image;
-use Html\Form\Input\Radios;
-use Html\Form\Input\SecurityToken;
-use Html\Form\Input\Select;
-use Html\Form\Input\TextArea;
-use Html\Form\Input\Time;
-use Html\Form\Input\TimeRange;
-use Html\Form\Input\Triggers;
-use Html\HtmlTagException;
-use Html\Security;
-use Html\Tag;
+use Swayok\Html\Form\Input\Captcha;
+use Swayok\Html\Form\Input\Checkbox;
+use Swayok\Html\Form\Input\Date;
+use Swayok\Html\Form\Input\DateRange;
+use Swayok\Html\Form\Input\File;
+use Swayok\Html\Form\Input\Hidden;
+use Swayok\Html\Form\Input\Image;
+use Swayok\Html\Form\Input\Radios;
+use Swayok\Html\Form\Input\SecurityToken;
+use Swayok\Html\Form\Input\Select;
+use Swayok\Html\Form\Input\TextArea;
+use Swayok\Html\Form\Input\Time;
+use Swayok\Html\Form\Input\TimeRange;
+use Swayok\Html\Form\Input\Triggers;
+use Swayok\Html\HtmlTagException;
+use Swayok\Html\Security;
+use Swayok\Html\Tag;
 use PeskyORM\DbObject;
 
 class Form extends Tag {
