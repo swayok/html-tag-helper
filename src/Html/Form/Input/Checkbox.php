@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
+namespace Html\Form\Input;
 
-use App\Utils\Html\Form\Form;
-use App\Utils\Html\Form\FormInput;
+use Html\Form\Form;
+use Html\Form\FormInput;
 
 class Checkbox extends FormInput {
 
@@ -26,7 +26,7 @@ class Checkbox extends FormInput {
         $attributes['type'] = 'checkbox';
         $this->attributes['value'] = $this->valueIfChecked;
         if (!isset($this->attributes['checked'])) {
-            $this->checked = $this->form->value($this->name) ? true : false;
+            $this->checked = $this->form->getInputValue($this->name) ? true : false;
         }
         if ($this->hiddenInput) {
             $hiddenInput = new Hidden($this->form, $this->name, array('value' => '0', 'id' => $this->id . '_hidden'));

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
+namespace Html\Form\Input;
 
-use App\Utils\Html\Form\FormInput;
-use App\Utils\Html\Form\Label;
+use Html\Form\FormInput;
+use Html\Form\Label;
 
 class Radios extends FormInput {
 
@@ -26,8 +26,8 @@ class Radios extends FormInput {
         $ret = '';
         $radios = $this->createInputs();
         foreach ($radios as $inputInfo) {
-            $ret .= self::div($inputInfo['input']->build() . "\n" . $inputInfo['label']->build())
-                ->class('radio-button-container')->build() . "\n";
+            $ret .= $this->div($inputInfo['input']->build() . "\n" . $inputInfo['label']->build())
+                ->setClass('radio-button-container')->build() . "\n";
         }
         return $ret;
     }
@@ -51,7 +51,7 @@ class Radios extends FormInput {
                 $label = new Label(array('content' => $label, 'for' => $id));
                 $this->inputs[] = array($radio, $label);
                 if (isset($this->attributes['value']) && self::compareValues($this->attributes['value'], $value)) {
-                    $radio->checked = true;
+                    $radio->setChecked(true);
                 }
                 $radios[] = array('label' => $label, 'input' => $radio);
             }

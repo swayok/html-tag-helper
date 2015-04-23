@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
-use App\Utils\Html\HtmlTagException;
+namespace Html\Form\Input;
+use Html\HtmlTagException;
 
 /**
  * Class FormDate
@@ -26,7 +26,7 @@ class Date extends DateTimeBase {
             array('id' => '', 'name' => '', 'class' => '', 'data-min' => '', 'data-max' => '', 'data-enabler' => '')
         );
         $this->addClass($this->withTime ? $this->dateTimeClass : $this->dateClass)
-            ->data('type', $this->withTime ? 'datetime' : 'date');
+            ->setAttribute('data-type', $this->withTime ? 'datetime' : 'date');
         $this->id; //< make id if not set
         unset($this->attributes['name']); //< needed only for id
         $openTag = parent::buildOpenTag();

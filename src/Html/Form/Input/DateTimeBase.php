@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
+namespace Html\Form\Input;
 
-use App\Utils\Html\Form\FormInput;
-use App\Utils\Html\Tag;
+use Html\Form\FormInput;
 
 abstract class DateTimeBase extends FormInput {
 
@@ -79,7 +78,7 @@ abstract class DateTimeBase extends FormInput {
         // set data-min attribute and normalize value
         if (!empty($this->attributes['max_date']) && $this->isDate($this->attributes['max_date'])) {
             $maxDate = $this->toFormattedDate($this->attributes['max_date']);
-            $this->data('max', $maxDate);
+            $this->setAttribute('data-max', $maxDate);
             if (empty($this->attributes['value']) || !$valueTs || $valueTs > strtotime($maxDate)) {
                 $this->value($maxDate);
             }
@@ -87,7 +86,7 @@ abstract class DateTimeBase extends FormInput {
         // set data-min attribute and normalize value
         if (!empty($this->attributes['min_date'])) {
             $minDate = $this->toFormattedDate($this->attributes['min_date']);
-            $this->data('min', $minDate);
+            $this->setAttribute('data-min', $minDate);
             if (empty($this->attributes['value']) || $valueTs < strtotime($minDate)) {
                 $this->value($minDate);
             }
@@ -102,7 +101,7 @@ abstract class DateTimeBase extends FormInput {
 
     protected function processEnabler() {
         if (!empty($this->attributes['enabler'])) {
-            $this->data('enabler', $this->attributes['enabler']);
+            $this->setAttribute('data-enabler', $this->attributes['enabler']);
         }
     }
 
@@ -118,6 +117,6 @@ abstract class DateTimeBase extends FormInput {
     }
 
     protected function getHiddenInput($name) {
-        return Tag::tag('input', array('type' => 'hidden', 'name' => $name, 'value' => $this->value));
+        return self::create(array('type' => 'hidden', 'name' => $name, 'value' => $this->value), 'input');
     }
 }

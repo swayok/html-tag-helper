@@ -1,10 +1,24 @@
 <?php
 
-namespace App\Utils\Html\Form;
+namespace Html\Form;
 
-use App\Utils\Html\HtmlTagException;
-use App\Utils\Html\Security;
-use App\Utils\Html\Tag;
+use Html\Form\Input\Captcha;
+use Html\Form\Input\Checkbox;
+use Html\Form\Input\Date;
+use Html\Form\Input\DateRange;
+use Html\Form\Input\File;
+use Html\Form\Input\Hidden;
+use Html\Form\Input\Image;
+use Html\Form\Input\Radios;
+use Html\Form\Input\SecurityToken;
+use Html\Form\Input\Select;
+use Html\Form\Input\TextArea;
+use Html\Form\Input\Time;
+use Html\Form\Input\TimeRange;
+use Html\Form\Input\Triggers;
+use Html\HtmlTagException;
+use Html\Security;
+use Html\Tag;
 use PeskyORM\DbObject;
 
 class Form extends Tag {
@@ -30,7 +44,7 @@ class Form extends Tag {
     /** @var array */
     protected $inputErrors = array();
     /** @var bool */
-    public $secure = true;
+    protected $security = true;
 
     /**
      * Create new Form
@@ -49,12 +63,12 @@ class Form extends Tag {
      * @param string $name
      * @param array|DbObject|null $values
      * @param string $type
-     * @param bool $secure
+     * @param bool $security
      * @throws HtmlTagException
      */
-    public function __construct($name, $values = array(), $type = self::TYPE_URL_ENCODED, $secure = true) {
+    public function __construct($name, $values = array(), $type = self::TYPE_URL_ENCODED, $security = true) {
         $this->name = $name;
-        $this->secure = $secure;
+        $this->enableSecurity($security);
         if (!empty($type) && $type !== self::TYPE_URL_ENCODED) {
             $this->encType = $type;
         }
@@ -78,7 +92,7 @@ class Form extends Tag {
         } else {
             $this->values = $values;
             foreach ($this->_inputs as $name => $object) {
-                $this->_inputs[$name]->value = $this->value($name);
+                $this->_inputs[$name]->setValue($this->getInputValue($name));
             }
             return $this;
         }
@@ -91,13 +105,13 @@ class Form extends Tag {
      * @param boolean $updateInputValue - true: will trigger input value update
      * @return Form|null
      */
-    public function value($name, $value = null, $updateInputValue = true) {
+    public function getInputValue($name, $value = null, $updateInputValue = true) {
         if ($value === null) {
             return isset($this->values[$name]) ? $this->values[$name] : null;
         } else {
             $this->values[$name] = $value;
             if ($updateInputValue && isset($this->_inputs[$name])) {
-                $this->_inputs[$name]->value = $value;
+                $this->_inputs[$name]->setValue($value);
             }
             return $this;
         }
@@ -122,7 +136,7 @@ class Form extends Tag {
      * @param array $errors
      * @return Form
      */
-    public function errors($errors = array()) {
+    public function setErrors($errors = array()) {
         $this->inputErrors = $errors;
         return $this;
     }
@@ -141,12 +155,12 @@ class Form extends Tag {
      * @param array $inputs
      * @return Form
      */
-    public function inputs($inputs) {
+    public function setInputs($inputs) {
         foreach ($inputs as $name => $attributes) {
             if (!isset($attributes['type'])) {
                 $attributes['type'] = 'text';
             }
-            $this->input($name, $attributes);
+            $this->addInput($name, $attributes);
         }
         return $this;
     }
@@ -154,108 +168,100 @@ class Form extends Tag {
     /**
      * Create or get input
      * @param string $name
-     * @param array|null $attributes
-     * @return $this|string
+     * @return FormInput
      * @throws HtmlTagException
      */
-    public function input($name, $attributes = null) {
-        if (!is_array($attributes)) {
-            if (isset($this->_inputs[$name])) {
-                return $this->_inputs[$name];
-            } else {
-                $attributes = array();
-            }
-        }
+    public function getInput($name) {
         if (!isset($this->_inputs[$name])) {
-            if (!isset($attributes['type'])) {
-                $attributes['type'] = 'text';
-            }
-            switch (strtolower($attributes['type'])) {
-                case 'textarea':
-                    $this->_inputs[$name] = new FormTextArea($this, $name, $attributes);
-                    break;
-                case 'select':
-                    $this->_inputs[$name] = new FormSelect($this, $name, $attributes);
-                    break;
-                case 'checkbox':
-                    $this->_inputs[$name] = new FormCheckbox($this, $name, $attributes);
-                    break;
-                case 'radios':
-                    $this->_inputs[$name] = new FormRadios($this, $name, $attributes);
-                    break;
-                case 'trigger':
-                case 'triggers':
-                    $this->_inputs[$name] = new FormTriggers($this, $name, $attributes);
-                    break;
-                case 'hidden':
-                    $this->_inputs[$name] = new FormHidden($this, $name, $attributes);
-                    break;
-                case 'captcha':
-                    $this->_inputs[$name] = new Captcha($this, $name, $attributes);
-                    break;
-                case 'image':
-                    $this->_inputs[$name] = new FormImage($this, $name, $attributes);
-                    $this->encType = self::TYPE_FILE;
-                    break;
-                case 'file':
-                    $this->_inputs[$name] = new FormFile($this, $name, $attributes);
-                    $this->encType = self::TYPE_FILE;
-                    break;
-                case 'content':
-                    $this->_inputs[$name] = new FormContent($this, $name, $attributes);
-                    break;
-                case 'date':
-                    $this->_inputs[$name] = new FormDate($this, $name, $attributes);
-                    break;
-                case 'daterange':
-                    $this->_inputs[$name] = new FormDateRange($this, $name, $attributes);
-                    break;
-                case 'time':
-                    $this->_inputs[$name] = new FormTime($this, $name, $attributes);
-                    break;
-                case 'timerange':
-                    $this->_inputs[$name] = new FormTimeRange($this, $name, $attributes);
-                    break;
-                case 'datetime':
-                    $attributes['with_time'] = true;
-                    $this->_inputs[$name] = new FormDate($this, $name, $attributes);
-                    break;
-                case 'datetimerange':
-                    $attributes['with_time'] = true;
-                    $this->_inputs[$name] = new FormDateRange($this, $name, $attributes);
-                    break;
-                default:
-                    $this->_inputs[$name] = new FormInput($this, $name, $attributes);
-            }
-        } else {
-            throw new HtmlTagException("Duplicate input [$name]");
+            throw new HtmlTagException("Form input with [$name] not exists");
         }
-        if ($this->value($name) !== null && !isset($this->_inputs[$name]->value)) {
-            if (get_class($this->_inputs[$name]) == 'FormImage') {
-                $values = $this->value($name);
-                $paths = $this->value($name . '_path');
-                if (!empty($paths) && is_array($paths) && !empty($values) && is_array($values)) {
-                    foreach ($values as $version => $url) {
-                        $values[$version . '_path'] = $paths[$version];
-                    }
-                }
-                $this->_inputs[$name]->value = $values;
-            } else {
-                $this->_inputs[$name]->value = $this->value($name);
-            }
-        }
-
         return $this->_inputs[$name];
     }
 
     /**
      * Add input to form
      * @param string $name
-     * @param string $type
+     * @param array $attributes
      * @return Form
+     * @throws HtmlTagException
      */
-    public function addInput($name, $type = 'text') {
-        $this->input($name, $type);
+    public function addInput($name, array $attributes = array()) {
+        if (isset($this->_inputs[$name])) {
+            throw new HtmlTagException("Duplicate input [$name]");
+        }
+        $attributes['type'] = isset($attributes['type']) ? strtolower($attributes['type']) : 'text';
+        switch ($attributes['type']) {
+            case 'textarea':
+                $this->_inputs[$name] = new TextArea($this, $name, $attributes);
+                break;
+            case 'select':
+                $this->_inputs[$name] = new Select($this, $name, $attributes);
+                break;
+            case 'checkbox':
+                $this->_inputs[$name] = new Checkbox($this, $name, $attributes);
+                break;
+            case 'radios':
+                $this->_inputs[$name] = new Radios($this, $name, $attributes);
+                break;
+            case 'trigger':
+            case 'triggers':
+                $this->_inputs[$name] = new Triggers($this, $name, $attributes);
+                break;
+            case 'hidden':
+                $this->_inputs[$name] = new Hidden($this, $name, $attributes);
+                break;
+            case 'captcha':
+                $this->_inputs[$name] = new Captcha($this, $name, $attributes);
+                break;
+            case 'image':
+                $this->_inputs[$name] = new Image($this, $name, $attributes);
+                $this->encType = self::TYPE_FILE;
+                break;
+            case 'file':
+                $this->_inputs[$name] = new File($this, $name, $attributes);
+                $this->encType = self::TYPE_FILE;
+                break;
+            case 'content':
+                $this->_inputs[$name] = new FormCustomContent($this, $name, $attributes);
+                break;
+            case 'date':
+                $this->_inputs[$name] = new Date($this, $name, $attributes);
+                break;
+            case 'daterange':
+                $this->_inputs[$name] = new DateRange($this, $name, $attributes);
+                break;
+            case 'time':
+                $this->_inputs[$name] = new Time($this, $name, $attributes);
+                break;
+            case 'timerange':
+                $this->_inputs[$name] = new TimeRange($this, $name, $attributes);
+                break;
+            case 'datetime':
+                $attributes['with_time'] = true;
+                $this->_inputs[$name] = new Date($this, $name, $attributes);
+                break;
+            case 'datetimerange':
+                $attributes['with_time'] = true;
+                $this->_inputs[$name] = new DateRange($this, $name, $attributes);
+                break;
+            default:
+                $this->_inputs[$name] = new FormInput($this, $name, $attributes);
+        }
+        // set input value if possible
+        if ($this->getInputValue($name) !== null && !isset($this->_inputs[$name]->value)) {
+            if (get_class($this->_inputs[$name]) == 'FormImage') {
+                $values = $this->getInputValue($name);
+                $paths = $this->getInputValue($name . '_path');
+                if (!empty($paths) && is_array($paths) && !empty($values) && is_array($values)) {
+                    foreach ($values as $version => $url) {
+                        $values[$version . '_path'] = $paths[$version];
+                    }
+                }
+                $this->_inputs[$name]->setValue($values);
+            } else {
+                $this->_inputs[$name]->setValue($this->getInputValue($name));
+            }
+        }
         return $this;
     }
 
@@ -264,7 +270,7 @@ class Form extends Tag {
      * @param array $attributes
      * @return Form
      */
-    public function submit($attributes = null) {
+    public function setSubmitInput($attributes = null) {
         if (!is_array($attributes)) {
             return $this->submitButton;
         } else {
@@ -275,23 +281,16 @@ class Form extends Tag {
     }
 
     /**
-     * inputs can be called like 'iEmail', 'iSubject', etc..
-     * @param string $name
-     * @param array $args
-     * @return $this|mixed
+     * @param bool $useDl
+     * @return string
      */
-    public function __call($name, $args) {
-        if ($name[0] == 'i' && isset($this->_inputs[substr($name, 1)])) {
-            return $this->_inputs[substr($name, 1)];
-        } else {
-            return parent::__call($name, $args);
-        }
-    }
-
     public function build($useDl = true) {
         return $this->buildOpenTag() . $this->buildContent($useDl) . $this->buildCloseTag();
     }
 
+    /**
+     * @return string
+     */
     public function buildOpenTag() {
         if (empty($this->attributes['method'])) {
             $this->attributes['method'] = 'get';
@@ -299,6 +298,9 @@ class Form extends Tag {
         return parent::buildOpenTag();
     }
 
+    /**
+     * @return string
+     */
     public function buildCloseTag() {
         return $this->buildSecurity() . parent::buildCloseTag();
     }
@@ -307,22 +309,36 @@ class Form extends Tag {
      * @param bool $enable
      * @return Form
      */
-    public function secure($enable = true) {
-        $this->secure = !!$enable;
+    public function enableSecurity($enable) {
+        $this->security = !!$enable;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isSecurityEnabled() {
+        return $this->security;
+    }
+
+    /**
+     * @return string
+     */
     public function buildSecurity() {
-        if ($this->secure) {
-            $formName = new FormHidden($this, Security::FORM_NAME, array('value' => $this->name));
-            $token = new SecurityTokenInput($this, Security::TOKEN);
-            $timestamp = new FormHidden($this, Security::TIMESTAMP, array('value' => Security::getTimestamp()));
+        if ($this->security) {
+            $formName = new Hidden($this, Security::FORM_NAME, array('value' => $this->name));
+            $token = new SecurityToken($this, Security::TOKEN);
+            $timestamp = new Hidden($this, Security::TIMESTAMP, array('value' => Security::getTimestamp()));
             return $token . $timestamp . $formName;
         } else {
             return '';
         }
     }
 
+    /**
+     * @param bool $useDl
+     * @return string
+     */
     public function buildContent($useDl = true) {
         $ret = '';
         foreach ($this->_inputs as $name => $input) {
@@ -331,15 +347,18 @@ class Form extends Tag {
             }
         }
         if ($useDl) {
-            $ret = $this->dl()->content($ret)->build();
+            $ret = $this->dl()->setContent($ret)->build();
         }
         $ret .= $this->buildSubmit();
         return $ret;
     }
 
+    /**
+     * @return string
+     */
     public function buildSubmit() {
         if (!empty($this->submitButton)) {
-            return $this->div(array('class' => 'submit'))->content($this->submitButton->build())->build();
+            return $this->div(array('class' => 'submit'))->setContent($this->submitButton->build())->build();
         }
         return '';
     }

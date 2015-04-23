@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
-use App\Utils\Html\HtmlTagException;
+namespace Html\Form\Input;
+use Html\HtmlTagException;
 
 /**
  * Class FormDate
@@ -28,7 +28,7 @@ class TimeRange extends TimeBase {
             $this->attributes,
             array('id' => '', 'name' => '', 'class' => '', 'data-enabler' => '')
         );
-        $this->addClass('time-range-input-container')->data('type', 'time-range');
+        $this->addClass('time-range-input-container')->setAttribute('data-type', 'time-range');
         $this->id; //< make id if not set
         unset($this->attributes['name']); //< needed only for id
         $openTag = parent::buildOpenTag();

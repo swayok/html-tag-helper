@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
+namespace Html\Form\Input;
 
-use App\Utils\Html\Form\FormInput;
-use App\Utils\Html\Form\Label;
-use App\Utils\Html\Tag;
+use Html\Form\FormInput;
+use Html\Form\Label;
 
 class Triggers extends FormInput {
 
@@ -31,8 +30,8 @@ class Triggers extends FormInput {
         $ret = '';
         $triggers = $this->createInputs();
         foreach ($triggers as $inputInfo) {
-            $ret .= Tag::div($inputInfo['input']->build() . "\n" . $inputInfo['label']->build())
-                ->class('radio-button-container')->build();
+            $ret .= $this->div($inputInfo['input']->build() . "\n" . $inputInfo['label']->build())
+                ->setClass('radio-button-container')->build();
         }
         return $ret;
     }
@@ -60,7 +59,7 @@ class Triggers extends FormInput {
                 $label = new Label(array('content' => $label, 'for' => $id));
                 $this->triggers[] = array($trigger, $label);
                 if (isset($this->attributes['value']) && self::compareValues($this->attributes['value'], $value)) {
-                    $trigger->checked = true;
+                    $trigger->setChecked(true);
                 }
                 $triggers[] = array('label' => $label, 'input' => $trigger);
             }

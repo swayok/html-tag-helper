@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
-use App\Utils\Html\HtmlTagException;
+namespace Html\Form\Input;
+use Html\HtmlTagException;
 
 /**
  * Class FormDate
@@ -17,10 +17,10 @@ class Time extends TimeBase {
     public $tagName = 'input';
 
     public function buildOpenTag() {
-        $this->setValue();
+        $this->loadValue();
         $this->processEnabler();
         if ($this->withSeconds) {
-            $this->data('show-seconds', '1');
+            $this->setAttribute('data-show-seconds', '1');
         }
         $backup = $this->attributes;
         // filter attributes to show only required ones
@@ -28,7 +28,7 @@ class Time extends TimeBase {
             $this->attributes,
             array('id' => '', 'name' => '', 'class' => '', 'type' => '', 'data-enabler' => '', 'value' => '')
         );
-        $this->type('text')->class('time-input')->data('type', 'time');
+        $this->setType('text')->setClass('time-input')->setAttribute('data-type', 'time');
         $this->id; //< make id if not set
         unset($this->attributes['name']); //< needed only for id
         $openTag = parent::buildOpenTag();

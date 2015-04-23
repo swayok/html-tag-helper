@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
+namespace Html\Form\Input;
 
-use App\Utils\Html\Form\FormInput;
-use App\Utils\Html\Tag;
+use Html\Form\FormInput;
 
 class File extends FormInput {
 
@@ -18,7 +17,7 @@ class File extends FormInput {
         $closeTag = parent::buildCloseTag();
         $fileName = empty($this->value)
             ? ''
-            : Tag::div(preg_replace('%^.*/(.*)$%', '$1', $this->value))->class('form-input-current-file-name');
+            : $this->div(preg_replace('%^.*/(.*)$%', '$1', $this->value))->setClass('form-input-current-file-name');
         return $closeTag . $fileName;
     }
 }

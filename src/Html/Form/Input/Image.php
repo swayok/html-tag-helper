@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
+namespace Html\Form\Input;
 
-use App\Utils\Html\Form\Form;
-use App\Utils\Html\Form\FormInput;
-use App\Utils\Html\ImagePreview;
+use Html\Form\Form;
+use Html\Form\FormInput;
+use Html\ImagePreview;
 
 class Image extends FormInput {
 
@@ -36,9 +36,9 @@ class Image extends FormInput {
         unset($this->attributes['value']);
         $openTag = parent::buildOpenTag(); //< created input id
         $cleanBtn = $this->a()
-            ->class('clean-input icon-delete')
-            ->content('Clean')
-            ->href("javascript: Form.cleanFileInput('{$this->id}') && void(0)");
+            ->setClass('clean-input icon-delete')
+            ->setContent('Clean')
+            ->setHref("javascript: Form.cleanFileInput('{$this->id}') && void(0)");
         return $cleanBtn . $openTag;
     }
 
@@ -63,7 +63,7 @@ class Image extends FormInput {
                     }
                 }
             }
-            $previewBlock = !empty($filesToShow) ? ImagePreview::get()->content($filesToShow) : '';
+            $previewBlock = !empty($filesToShow) ? ImagePreview::create()->setContent($filesToShow) : '';
         }
         return $previewBlock . parent::buildCloseTag();
     }

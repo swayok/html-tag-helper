@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Utils\Html\Form;
+namespace Html\Form;
 
-use App\Utils\Html\Tag;
+use Html\Tag;
 
 class Label extends Tag {
     public $tagName = 'label';

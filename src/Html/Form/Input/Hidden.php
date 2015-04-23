@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
+namespace Html\Form\Input;
 
-use App\Utils\Html\Form\FormInput;
+use Html\Form\FormInput;
 
 class Hidden extends FormInput {
 

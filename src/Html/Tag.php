@@ -1,138 +1,138 @@
 <?php
 
-namespace App\Utils\Html;
+namespace Html;
 
 /**
  * Class Tag
  * Attributes:
- * @property string $accessKey
- * @property bool $contentEditable
- * @property string $contextMenu
- * @property string $class
- * @property string $dir
- * @property string $id
- * @property bool $hidden
- * @property string $lang
- * @property bool $spellCheck
- * @property string $style
- * @property int $tabindex
- * @property string $title
- * @property string $href
- * @property bool $nohref
- * @property string|int $width
- * @property string|int $height
+ * @property-read string $accessKey
+ * @property-read bool $contentEditable
+ * @property-read string $contextMenu
+ * @property-read string $class
+ * @property-read string $dir
+ * @property-read string $id
+ * @property-read bool $hidden
+ * @property-read string $lang
+ * @property-read bool $spellCheck
+ * @property-read string $style
+ * @property-read int $tabindex
+ * @property-read string $title
+ * @property-read string $href
+ * @property-read bool $nohref
+ * @property-read string|int $width
+ * @property-read string|int $height
  *
- * @property string $acceptCharset
- * @property string $action
- * @property bool $autoComplete
- * @property string $method
- * @property string $name
- * @property bool $noValidate
- * @property string $target
- * @property string $encType
+ * @property-read string $acceptCharset
+ * @property-read string $action
+ * @property-read bool $autoComplete
+ * @property-read string $method
+ * @property-read string $name
+ * @property-read bool $noValidate
+ * @property-read string $target
+ * @property-read string $encType
  *
- * @property string $for
+ * @property-read string $for
  *
- * @property string $value
- * @property string $placeholder
- * @property int $maxlength
- * @property int $rows
- * @property int $cols
- * @property bool $checked
- * @property bool $selected
- * @property bool $multiple
- * @property int $size
+ * @property-read string $value
+ * @property-read string $placeholder
+ * @property-read int $maxlength
+ * @property-read int $rows
+ * @property-read int $cols
+ * @property-read bool $checked
+ * @property-read bool $selected
+ * @property-read bool $multiple
+ * @property-read int $size
  *
- * @property string $src
- * @property string $alt
+ * @property-read string $src
+ * @property-read string $alt
  *
- * @property int $colspan
- * @property int $rowspan
+ * @property-read int $colspan
+ * @property-read int $rowspan
  *
- * @method string|$this accessKey() accessKey($value = null)
- * @method bool|$this contentEditable() contentEditable($value = null)
- * @method string|$this contextMenu() contextMenu($value = null)
- * @method string|$this class() class($value = null)
- * @method string|$this dir() dir($value = null)
- * @method string|$this id() id($value = null)
- * @method bool|$this hidden() hidden($value = null)
- * @method string|$this lang() lang($value = null)
- * @method bool|$this spellCheck() spellCheck($value = null)
- * @method string|$this style() style($value = null)
- * @method int|$this tabindex() tabindex($value = null)
- * @method string|$this title() title($value = null)
- * @method string|$this href() href($value = null)
- * @method string|$this nohref() nohref($value = null)
- * @method int|string|$this width() width($value = null)
- * @method int|string|$this height() height($value = null)
+ * @method $this setAccessKey($value)
+ * @method $this setContentEditable($value)
+ * @method $this setContextMenu($value)
+ * @method $this setClass($value)
+ * @method $this setDir($value)
+ * @method $this setId($value)
+ * @method $this setHidden($value)
+ * @method $this setLang($value)
+ * @method $this setSpellCheck($value)
+ * @method $this setStyle($value)
+ * @method $this setTabindex($value)
+ * @method $this setTitle($value)
+ * @method $this setHref($value)
+ * @method $this setNohref($value)
+ * @method int|string setWidth($value)
+ * @method int|string setHeight($value)
  *
- * @method string|$this acceptCharset() acceptCharset($value = null)
- * @method string|$this action() action($value = null)
- * @method bool|$this autoComplete() autoComplete($value = null)
- * @method string|$this method() method($value = null)
- * @method string|$this name() name($value = null)
- * @method bool|$this noValidate() noValidate($value = null)
- * @method string|$this target() target($value = null)
- * @method string|$this encType() encType($value = null)
+ * @method $this setAcceptCharset($value)
+ * @method $this setAction($value)
+ * @method $this setAutoComplete($value)
+ * @method $this setMethod($value)
+ * @method $this setName($value)
+ * @method $this setNoValidate($value)
+ * @method $this setTarget($value)
+ * @method $this setEncType($value)
  *
- * @method string|$this for() for($value = null)
+ * @method $this setFor($value)
  *
- * @method string|$this value() value($value = null)
- * @method string|$this placeholder() placeholder($value = null)
- * @method int|$this maxlength() maxlength($value = null)
- * @method int|$this rows() rows($value = null)
- * @method int|$this cols() cols($value = null)
- * @method bool|$this checked() checked($value = null)
- * @method bool|$this selected() selected($value = null)
- * @method bool|$this multiple() multiple($value = null)
- * @method int|$this size() size($value = null)
+ * @method $this setValue($value)
+ * @method $this setPlaceholder($value)
+ * @method $this setMaxlength($value)
+ * @method $this setRows($value)
+ * @method $this setCols($value)
+ * @method $this setChecked($value)
+ * @method $this setSelected($value)
+ * @method $this setMultiple($value)
+ * @method $this setSize($value)
  *
- * @method int|Tag colspan() colspan($value = null)
- * @method int|Tag rowspan() rowspan($value = null)
+ * @method $this setColspan($value)
+ * @method $this setRowspan($value)
  *
- * @method int|Tag src() src($value = null)
- * @method int|Tag alt() alt($value = null)
+ * @method $this setSrc($value)
+ * @method $this setAlt($value)
  *
- * Events:
- * @property string $onBlur
- * @property string $onChange
- * @property string $onClick
- * @property string $onDblClick
- * @property string $onFocus
- * @property string $onKeyDown
- * @property string $onKeyPress
- * @property string $onKeyUp
- * @property string $onLoad
- * @property string $onMouseDown
- * @property string $onMouseMove
- * @property string $onMouseOut
- * @property string $onMouseOver
- * @property string $onMouseUp
- * @property string $onReset
- * @property string $onSelect
- * @property string $onSubmit
- * @property string $onUnload
- * @property string $type
+ * From and Inputs:
+ * @property-read string $onBlur
+ * @property-read string $onChange
+ * @property-read string $onClick
+ * @property-read string $onDblClick
+ * @property-read string $onFocus
+ * @property-read string $onKeyDown
+ * @property-read string $onKeyPress
+ * @property-read string $onKeyUp
+ * @property-read string $onLoad
+ * @property-read string $onMouseDown
+ * @property-read string $onMouseMove
+ * @property-read string $onMouseOut
+ * @property-read string $onMouseOver
+ * @property-read string $onMouseUp
+ * @property-read string $onReset
+ * @property-read string $onSelect
+ * @property-read string $onSubmit
+ * @property-read string $onUnload
+ * @property-read string $type
  *
- * @method string|$this onBlur() onBlur($value = null)
- * @method string|$this onChange() onChange($value = null)
- * @method string|$this onClick() onClick($value = null)
- * @method string|$this onDblClick() onDblClick($value = null)
- * @method string|$this onFocus() onFocus($value = null)
- * @method string|$this onKeyDown() onKeyDown($value = null)
- * @method string|$this onKeyPress() onKeyPress($value = null)
- * @method string|$this onKeyUp() onKeyUp($value = null)
- * @method string|$this onLoad() onLoad($value = null)
- * @method string|$this onMouseDown() onMouseDown($value = null)
- * @method string|$this onMouseMove() onMouseMove($value = null)
- * @method string|$this onMouseOut() onMouseOut($value = null)
- * @method string|$this onMouseOver() onMouseOver($value = null)
- * @method string|$this onMouseUp() onMouseUp($value = null)
- * @method string|$this onSelect() onSelect($value = null)
- * @method string|$this onUnload() onUnload($value = null)
- * @method string|$this onSubmit() onSubmit($value = null)
- * @method string|$this onReset() onReset($value = null)
- * @method string|$this type() type($value = null)
+ * @method $this setOnBlur($value)
+ * @method $this setOnChange($value)
+ * @method $this setOnClick($value)
+ * @method $this setOnDblClick($value)
+ * @method $this setOnFocus($value)
+ * @method $this setOnKeyDown($value)
+ * @method $this setOnKeyPress($value)
+ * @method $this setOnKeyUp($value)
+ * @method $this setOnLoad($value)
+ * @method $this setOnMouseDown($value)
+ * @method $this setOnMouseMove($value)
+ * @method $this setOnMouseOut($value)
+ * @method $this setOnMouseOver($value)
+ * @method $this setOnMouseUp($value)
+ * @method $this setOnSelect($value)
+ * @method $this setOnUnload($value)
+ * @method $this setOnSubmit($value)
+ * @method $this setOnReset($value)
+ * @method $this setType($value)
  *
  * Quick Tags
  * @method static $this dl($attributes = array())
@@ -180,11 +180,12 @@ class Tag {
 
     /**
      * @param array $attributes
+     * @param null|string $tagName
      * @return $this
      */
-    static public function get($attributes = array()) {
+    static public function create($attributes = array(), $tagName = null) {
         $class = get_called_class();
-        return new $class($attributes);
+        return new $class($attributes, $tagName);
     }
 
     public function __construct($attributes = array(), $tagName = null) {
@@ -210,18 +211,45 @@ class Tag {
     }
 
     /**
-     * Get or set attributes
-     * @param null|array $attributes
-     * @param bool $replace - true: existing attributes will be raplaced | false: $attributes will be merged with existing
-     * @return array|$this
+     * @param array $attributes
+     * @param bool $replace
+     * @return $this
      */
-    public function attributes($attributes = null, $replace = false) {
-        if (!is_array($attributes)) {
-            return $this->attributes;
-        } else {
-            $this->attributes = $replace ? $attributes : array_merge($this->attributes, $attributes);
-            return $this;
+    public function setAttributes(array $attributes, $replace = false) {
+        $this->attributes = $replace ? $attributes : array_merge($this->attributes, $attributes);
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    public function setAttribute($name, $value) {
+        if (isset($this->attributesMap[$name])) {
+            $name = $this->attributesMap[$name];
         }
+        $this->attributes[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return null
+     */
+    public function getAttribute($name) {
+        $name = strtolower($name);
+        if (isset($this->attributesMap[$name])) {
+            $name = $this->attributesMap[$name];
+        }
+        return (isset($this->attributes[$name])) ? $this->attributes[$name] : null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes() {
+        return $this->attributes;
     }
 
     /**
@@ -243,17 +271,19 @@ class Tag {
     }
 
     /**
-     * Set tag content
-     * @param null|string $content - text or html
+     * @param $content
      * @return $this
      */
-    public function content($content = null) {
-        if ($content === null) {
-            return $this->content;
-        } else {
-            $this->content = empty($content) && !is_numeric($content) ? '' : $content;
-            return $this;
-        }
+    public function setContent($content) {
+        $this->content = empty($content) && !is_numeric($content) ? '' : $content;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent() {
+        return $this->content;
     }
 
     /**
@@ -331,20 +361,8 @@ class Tag {
         return ' ' . implode(' ', $ret) . ' ';
     }
 
-    public function __set($attribute, $value) {
-        $attribute = strtolower($attribute);
-        if (isset($this->attributesMap[$attribute])) {
-            $attribute = $this->attributesMap[$attribute];
-        }
-        $this->attributes[$attribute] = $value;
-    }
-
     public function __get($attribute) {
-        $attribute = strtolower($attribute);
-        if (isset($this->attributesMap[$attribute])) {
-            $attribute = $this->attributesMap[$attribute];
-        }
-        return (isset($this->attributes[$attribute])) ? $this->attributes[$attribute] : null;
+        return $this->getAttribute($attribute);
     }
 
     /**
@@ -375,20 +393,12 @@ class Tag {
         if (in_array($name, self::$quickTags)) {
             return self::__callStatic($name, $args);
         }
-        if (isset($this->attributesMap[$name])) {
-            $name = $this->attributesMap[$name];
-        }
-        if (count($args) <= 1) {
-            if (isset($this->attributes[$name]) && count($args) == 0) {
-                return $this->attributes[$name];
-            } else if (count($args) == 1) {
-                $this->attributes[$name] = $args[0];
-            } else {
-                throw new HtmlTagException('What are you trying to do???');
-            }
+        if (count($args) === 1 && preg_match('%^set([a-zA-Z_0-9]+)%is', $name, $nameParts)) {
+            $name = $nameParts[1];
         } else {
-            throw new HtmlTagException('What are you trying to do???');
+            throw new HtmlTagException('Method calls should start with "set" and pass 1 argument');
         }
+        $this->setAttribute($name, $args[0]);
         return $this;
     }
 
@@ -402,18 +412,9 @@ class Tag {
         $tagName = strtolower($tagName);
         if (in_array($tagName, self::$quickTags)) {
             $attributes = count($args) ? $args[0] : array();
-            return self::tag($tagName, $attributes);
+            return self::create($tagName, $attributes);
         }
         return null;
-    }
-
-    /**
-     * @param string $tagName
-     * @param array $attributes
-     * @return $this
-     */
-    public static function tag($tagName, $attributes = array()) {
-        return new Tag($attributes, $tagName);
     }
 
     /**

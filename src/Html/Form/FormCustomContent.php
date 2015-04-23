@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils\Html\Form;
+namespace Html\Form;
 
 /**
  * Used to place custom content into form

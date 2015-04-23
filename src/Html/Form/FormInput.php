@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Utils\Html\Form;
+namespace Html\Form;
 
-use App\Utils\Html\Tag;
+use Html\Tag;
 
 class FormInput extends Tag {
     public $tagName = 'input';
@@ -111,46 +111,42 @@ class FormInput extends Tag {
         return false;
     }
 
-    public function __set($attribute, $value) {
-        switch (strtolower($attribute)) {
-            case 'value':
-                if ($value === null && isset($this->default)) {
-                    $this->attributes['value'] = $this->default;
-                } else {
-                    $this->attributes['value'] = $value;
-                }
-                $this->form->value($this->name, $this->attributes['value'], false);
-                break;
-            default:
-                parent::__set($attribute, $value);
+    /**
+     * @param string|int|float|null $value
+     * @return $this
+     */
+    public function setValue($value) {
+        if ($value === null && isset($this->default)) {
+            $this->attributes['value'] = $this->default;
+        } else {
+            $this->attributes['value'] = $value;
         }
+        $this->form->getInputValue($this->name, $this->attributes['value'], false);
+        return $this;
     }
 
-    public function __get($attribute) {
-        switch (strtolower($attribute)) {
-            case 'value':
-                $this->attributes['value'] = $this->form->value($this->name);
-                if ($this->attributes['value'] === null && isset($this->default)) {
-                    $this->attributes['value'] = $this->default;
-                }
-                return $this->attributes['value'];
-            case 'id':
-                $this->attributes['id'] = $this->buildId();
-                return $this->attributes['id'];
-            default:
-                return parent::__get($attribute);
+    /**
+     * @return string|int|float|null
+     */
+    public function getValue() {
+        $this->attributes['value'] = $this->form->getInputValue($this->name);
+        if ($this->attributes['value'] === null && isset($this->default)) {
+            $this->attributes['value'] = $this->default;
         }
+        return $this->attributes['value'];
     }
 
-    public function buildLabel() {
-        $label = '';
-        if (!empty($this->label)) {
-            $label = new FormLabel(array('for' => $this->buildId()));
-            $label = $label->content($this->label)->build();
-        }
-        return $label;
+    /**
+     * @return string
+     */
+    public function getId() {
+        $this->attributes['id'] = $this->buildId();
+        return $this->attributes['id'];
     }
 
+    /**
+     * @return string
+     */
     public function buildId() {
         if (!array_key_exists('id', $this->attributes) || $this->attributes['id'] === null) {
             return !$this->name
@@ -163,6 +159,21 @@ class FormInput extends Tag {
         }
     }
 
+    /**
+     * @return Label|string
+     */
+    public function buildLabel() {
+        $label = '';
+        if (!empty($this->label)) {
+            $label = new Label(array('for' => $this->buildId()));
+            $label = $label->setContent($this->label)->build();
+        }
+        return $label;
+    }
+
+    /**
+     * @return string
+     */
     public function buildOpenTag() {
         $this->id; //< will build id if it is not set in $this->attributes
         $error = $this->form->getError($this->name);
@@ -172,17 +183,20 @@ class FormInput extends Tag {
         return parent::buildOpenTag();
     }
 
+    /**
+     * @return string
+     */
     public function buildCloseTag() {
         $error = $this->form->getError($this->name);
         if (!empty($error)) {
-            $error = $this->div()->class('error-text')->content($error);
+            $error = $this->div()->setClass('error-text')->setContent($error);
         }
         return parent::buildCloseTag() . $error;
     }
 
     public function buildHelp() {
         if (!empty($this->help)) {
-            return $this->div()->class('input-help')->content($this->help);
+            return $this->div()->setClass('input-help')->setContent($this->help);
         }
         return '';
     }
@@ -192,8 +206,8 @@ class FormInput extends Tag {
             if (empty($text)) {
                 $text = $this->tooltip;
             }
-            return ($withIcon ? Tag::div()->class('input-tooltip-icon') : '')
-                . $this->div()->class('input-tooltip')->content($text);
+            return ($withIcon ? $this->div()->setClass('input-tooltip-icon') : '')
+                . $this->div()->setClass('input-tooltip')->setContent($text);
         }
         return '';
     }
@@ -203,7 +217,7 @@ class FormInput extends Tag {
     }
 
     public function buildDt() {
-        return $this->dt()->content($this->buildLabel())->build();
+        return $this->dt()->setContent($this->buildLabel())->build();
     }
 
     public function getDdElements() {
@@ -235,7 +249,7 @@ class FormInput extends Tag {
     public function buildDd() {
         $ddElements = $this->getDdElements();
         $ddContent = $ddElements['input'] . $ddElements['tooltip'] . $ddElements['help'];
-        return $this->dd()->content($ddContent);
+        return $this->dd()->setContent($ddContent);
     }
 
     public function setDdContentTemplate($tplFileName, $tplType, $tplData = array()) {

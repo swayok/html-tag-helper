@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils\Html;
+namespace Html;
 
 class ImagePreview extends Tag{
     public $tagName = 'div';
@@ -26,7 +26,7 @@ class ImagePreview extends Tag{
     }
 
     protected function buildImgPreview($fileUrl) {
-//        return $this->div()->class('image-preview')->content($this->img()->src(Router::neverCachedUrl($fileUrl)));
-        return $this->div()->class('image-preview')->content($this->img()->src($fileUrl));
+//        return $this->div()->setClass('image-preview')->setContent($this->img()->setSrc(Router::neverCachedUrl($fileUrl)));
+        return $this->div()->setClass('image-preview')->setContent($this->img()->setSrc($fileUrl));
     }
 }

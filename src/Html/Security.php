@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils\Html;
+namespace Html;
 
 use App\Utils\Cookie;
 

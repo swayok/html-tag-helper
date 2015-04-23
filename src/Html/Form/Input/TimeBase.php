@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Utils\Html\Form\Input;
-
-use App\Utils\Html\Form\FormInput;
+namespace Html\Form\Input;
 
 abstract class TimeBase extends DateTimeBase {
 
     public $dateFormat = 'H:i';
     public $emptyValue = '00:00';
 
-    protected function setValue() {
+    protected function loadValue() {
         // catch invalid value
         if (!empty($this->attributes['value']) && !$this->isDate($this->attributes['value'])) {
             unset($this->value);
