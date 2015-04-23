@@ -2,7 +2,7 @@
 
 namespace Swayok\Html;
 
-use App\Utils\Cookie;
+use Swayok\Utils\Cookie;
 
 class Security {
 
