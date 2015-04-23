@@ -1,0 +1,22 @@
+{
+  "name": "swayok/html-tag-helper",
+  "type": "library",
+  "description": "Helper to construct HTML tags, Forms and Components",
+  "keywords": [
+    "php",
+    "html",
+    "web"
+  ],
+  "authors": [
+    {
+      "name": "Alexander Filippov"
+    }
+  ],
+  "license": "MIT",
+  "support": {
+    "issues": "https://github.com/swayok/html-tag-helper/issues"
+  },
+  "autoload": {
+      "psr-0": { "Html": "/src" }
+  }
+}
