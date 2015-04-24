@@ -181,6 +181,7 @@ class Tag {
     /**
      * @param array $attributes
      * @param null|string $tagName
+     * @throws HtmlTagException
      * @return $this
      */
     static public function create($attributes = array(), $tagName = null) {
@@ -188,9 +189,17 @@ class Tag {
         return new $class($attributes, $tagName);
     }
 
+    /**
+     * @param array $attributes
+     * @param null $tagName
+     * @throws HtmlTagException
+     */
     public function __construct($attributes = array(), $tagName = null) {
         if (!empty($tagName)) {
-            $this->tagName = $tagName;
+            $this->tagName = strtolower($tagName);
+        }
+        if (!is_string($this->tagName) || !preg_match('%^[a-zA-Z][a-zA-Z0-9-]*$%is', $this->tagName)) {
+            throw new HtmlTagException("Invalid HTML tag name [$this->tagName]");
         }
         if (!is_array($attributes)) {
             $this->content = $attributes;
@@ -205,9 +214,7 @@ class Tag {
             $this->name = $attributes['name'];
         }
         unset($attributes['name']);
-        foreach ($attributes as $name => $value) {
-            $this->$name = $value; //< this will trigger __set() where custom processing can be done
-        }
+        $this->setAttributes($attributes);
     }
 
     /**
@@ -216,7 +223,12 @@ class Tag {
      * @return $this
      */
     public function setAttributes(array $attributes, $replace = false) {
-        $this->attributes = $replace ? $attributes : array_merge($this->attributes, $attributes);
+        if ($replace) {
+            $this->attributes = array();
+        }
+        foreach ($attributes as $attrName => $attrValue) {
+            $this->setAttribute($attrName, $attrValue);
+        }
         return $this;
     }
 
@@ -224,12 +236,21 @@ class Tag {
      * @param string $name
      * @param mixed $value
      * @return $this
+     * @throws HtmlTagException
      */
     public function setAttribute($name, $value) {
         if (isset($this->attributesMap[$name])) {
             $name = $this->attributesMap[$name];
         }
-        $this->attributes[$name] = $value;
+        if (!preg_match('%^[a-zA-Z][a-zA-Z0-9-]*$%is', $name)) {
+            throw new HtmlTagException("Invalid HTML tag attribure name [$name]");
+        }
+        $methodName = 'set' . str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
+        if (method_exists($this, $methodName)) {
+            $this->$methodName($value);
+        } else {
+            $this->attributes[$name] = $value;
+        }
         return $this;
     }
 
@@ -353,7 +374,9 @@ class Tag {
             unset($attributes['value']);
         }
         foreach ($attributes as $name => $value) {
-            if ((!empty($value) || is_numeric($value)) && !is_array($value) && !in_array($name, $exclude)) {
+            if (is_callable($value)) {
+                $ret[] = $name . '="' . str_replace('"', '\\"', $value()) . '"';
+            } else if ((!empty($value) || is_numeric($value)) && !is_array($value) && !in_array($name, $exclude)) {
 //                $ret[] = $name . '="' . htmlspecialchars(is_bool($value) ? $name : Translator::autoFind($value), ENT_QUOTES, 'UTF-8', false) . '"';
                 $ret[] = $name . '="' . htmlspecialchars(is_bool($value) ? $name : $value, ENT_QUOTES, 'UTF-8', false) . '"';
             }
@@ -412,7 +435,7 @@ class Tag {
         $tagName = strtolower($tagName);
         if (in_array($tagName, self::$quickTags)) {
             $attributes = count($args) ? $args[0] : array();
-            return self::create($tagName, $attributes);
+            return self::create($attributes, $tagName);
         }
         return null;
     }
@@ -422,6 +445,10 @@ class Tag {
      * @throws HtmlTagException
      */
     public function __toString() {
-        return $this->build();
+        try {
+            return $this->build();
+        } catch (\Exception $exc) {
+            return $exc->getMessage() . "<br>\n" . $exc->getTraceAsString();
+        }
     }
 }
