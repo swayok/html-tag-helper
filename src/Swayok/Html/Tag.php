@@ -328,19 +328,27 @@ class Tag {
     }
 
     /**
-     * @param $name
-     * @param null $value
+     * @param string $name - attr name without 'data-' prefix
+     * @param string|null $value - null = remove attr
      * @return $this
      */
-    public function data($name, $value = null) {
+    public function setDataAttr($name, $value) {
         if ($value === null) {
-            return isset($this->attributes['data-' . strtolower($name)])
-                ? $this->attributes['data-' . strtolower($name)]
-                : null;
+            unset($this->attributes['data-' . strtolower($name)]);
         } else {
             $this->attributes['data-' . strtolower($name)] = $value;
-            return $this;
         }
+        return $this;
+    }
+
+    /**
+     * @param string $name - attr name without 'data-' prefix
+     * @return null
+     */
+    public function getDataAttr($name) {
+        return isset($this->attributes['data-' . strtolower($name)])
+            ? $this->attributes['data-' . strtolower($name)]
+            : null;
     }
 
     /**
