@@ -422,8 +422,8 @@ class Tag {
      */
     public function __call($name, $args) {
         $name = strtolower($name);
-        if (in_array($name, self::$quickTags)) {
-            return self::__callStatic($name, $args);
+        if (in_array($name, Tag::$quickTags)) {
+            return Tag::__callStatic($name, $args);
         }
         if (count($args) === 1 && preg_match('%^set([a-zA-Z_0-9]+)%is', $name, $nameParts)) {
             $name = $nameParts[1];
@@ -444,7 +444,7 @@ class Tag {
         $tagName = strtolower($tagName);
         if (in_array($tagName, self::$quickTags)) {
             $attributes = count($args) ? $args[0] : array();
-            return self::create($attributes, $tagName);
+            return Tag::create($attributes, $tagName);
         }
         return null;
     }

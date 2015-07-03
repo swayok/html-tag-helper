@@ -3,6 +3,7 @@
 namespace Swayok\Html\Form\Input;
 
 use Swayok\Html\Form\FormInput;
+use Swayok\Html\Tag;
 
 class Select extends FormInput {
 
@@ -13,12 +14,12 @@ class Select extends FormInput {
     public function buildContent() {
         $ret = '';
         if (empty($this->attributes['required'])) {
-            $ret = $this->option(array('value' => ''))->setContent('')->build() . "\n";
+            $ret = Tag::option(array('value' => ''))->setContent('')->build() . "\n";
         }
         if (!empty($this->options)) {
             if (is_array($this->options)) {
                 foreach ($this->options as $value => $label) {
-                    $option = $this->option(array('value' => $value, 'content' => $label));
+                    $option = Tag::option(array('value' => $value, 'content' => $label));
                     if ($value === 'NULL' && !isset($this->attributes['value'])) {
                         $option->setSelected(true);
                     } else if (isset($this->attributes['value']) && self::compareValues($this->attributes['value'], $value)) {
