@@ -257,7 +257,7 @@ class Tag {
 
     /**
      * @param string $name
-     * @return null
+     * @return null|string
      */
     public function getAttribute($name) {
         $name = strtolower($name);
