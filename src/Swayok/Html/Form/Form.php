@@ -47,6 +47,16 @@ class Form extends Tag {
     protected $security = true;
 
     /**
+     * @param array $attributes
+     * @param null $tagName
+     * @throws HtmlTagException
+     */
+    static public function create($attributes = array(), $tagName = null) {
+        throw new HtmlTagException('Form::create() is not available. Use Form::init()');
+    }
+
+
+    /**
      * Create new Form
      * @param string $name
      * @param array|DbObject|null $values
@@ -54,7 +64,7 @@ class Form extends Tag {
      * @param bool $secure - true: enables form security fields (see Security clas)
      * @return Form
      */
-    static public function create($name, $values = array(), $type = self::TYPE_URL_ENCODED, $secure = true) {
+    static public function init($name, $values = array(), $type = self::TYPE_URL_ENCODED, $secure = true) {
         $form = new Form($name, $values, $type, $secure);
         return $form;
     }
