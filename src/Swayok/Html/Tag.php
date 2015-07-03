@@ -142,6 +142,7 @@ namespace Swayok\Html;
  * @method static $this span($attributes = array())
  * @method static $this nav($attributes = array())
  * @method static $this a($attributes = array())
+ * @method static $this button($attributes = array())
  * @method static $this p($attributes = array())
  * @method static $this ul($attributes = array())
  * @method static $this ol($attributes = array())
