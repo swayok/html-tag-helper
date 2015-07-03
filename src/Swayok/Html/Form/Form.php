@@ -166,6 +166,13 @@ class Form extends Tag {
     }
 
     /**
+     * @return FormInput[]
+     */
+    public function getInputs() {
+       return $this->_inputs;
+    }
+
+    /**
      * Create or get input
      * @param string $name
      * @return FormInput
@@ -278,6 +285,14 @@ class Form extends Tag {
             $this->submitButton = new FormInput($this, '', $attributes);
             return $this;
         }
+    }
+
+    /**
+     * Add submit button to form
+     * @return FormInput
+     */
+    public function getSubmitInput() {
+        return $this->submitButton;
     }
 
     /**
