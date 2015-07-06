@@ -372,7 +372,7 @@ class Tag {
         return $this->short ? '' : $this->content;
     }
 
-    static protected function buildAttributes($attributes, $exclude = array()) {
+    static public function buildAttributes($attributes, $exclude = array()) {
         $ret = array();
         if (isset($attributes['name']) && is_int($attributes['name'])) {
             unset($attributes['name']);
