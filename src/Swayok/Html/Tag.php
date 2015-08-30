@@ -176,7 +176,8 @@ class Tag {
         'ul', 'ol', 'li',
         'option', 'img', 'pre',
         'table', 'tr', 'td', 'th', 'thead', 'tbody',
-        'script', 'h1', 'h2', 'h3', 'h4', 'h5'
+        'script', 'h1', 'h2', 'h3', 'h4', 'h5',
+        'button'
     );
 
     /**
