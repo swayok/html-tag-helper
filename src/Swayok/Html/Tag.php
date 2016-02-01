@@ -458,7 +458,7 @@ class Tag {
         try {
             return $this->build();
         } catch (\Exception $exc) {
-            return $exc->getMessage() . "<br>\n" . $exc->getTraceAsString();
+            return $exc->getMessage() . "<br>\n" . nl2br($exc->getTraceAsString());
         }
     }
 }
