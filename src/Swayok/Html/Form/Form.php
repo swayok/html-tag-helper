@@ -19,7 +19,6 @@ use Swayok\Html\Form\Input\Triggers;
 use Swayok\Html\HtmlTagException;
 use Swayok\Html\Security;
 use Swayok\Html\Tag;
-use PeskyORM\DbObject;
 
 class Form extends Tag {
     public $tagName = 'form';
@@ -59,7 +58,7 @@ class Form extends Tag {
     /**
      * Create new Form
      * @param string $name
-     * @param array|DbObject|null $values
+     * @param array|object|null $values
      * @param string $type - type of form (enctype), one of Form::TYPE_* (default: Form::TYPE_URL_ENCODED)
      * @param bool $secure - true: enables form security fields (see Security clas)
      * @return Form
@@ -71,7 +70,7 @@ class Form extends Tag {
 
     /**
      * @param string $name
-     * @param array|DbObject|null $values
+     * @param array|object|null $values
      * @param string $type
      * @param bool $security
      * @throws HtmlTagException
@@ -82,8 +81,11 @@ class Form extends Tag {
         if (!empty($type) && $type !== self::TYPE_URL_ENCODED) {
             $this->encType = $type;
         }
-        if ($values instanceof DbObject) {
-            $this->values = $values->toStrictArray();
+        if ($values instanceof \Iterator) {
+            $this->values = [];
+            foreach ($values as $key => $value) {
+                $this->values[$key] = $value;
+            }
         } else if (is_array($values)) {
             $this->values = $values;
         } else {
@@ -134,7 +136,7 @@ class Form extends Tag {
     public function getHiddenValues() {
         $ret = array();
         foreach ($this->_inputs as $name => $object) {
-            if ($name !== Security::TOKEN && $object->type == 'hidden' && $object->security) {
+            if ($name !== Security::TOKEN && strtolower($object->type) === 'hidden' && $object->security) {
                 $ret[$name] = $object->value();
             }
         }
@@ -266,7 +268,8 @@ class Form extends Tag {
         }
         // set input value if possible
         if ($this->getInputValue($name) !== null && !isset($this->_inputs[$name]->value)) {
-            if (get_class($this->_inputs[$name]) == 'FormImage') {
+            if (get_class($this->_inputs[$name]) === 'FormImage') {
+                /** @var array $values */
                 $values = $this->getInputValue($name);
                 $paths = $this->getInputValue($name . '_path');
                 if (!empty($paths) && is_array($paths) && !empty($values) && is_array($values)) {
