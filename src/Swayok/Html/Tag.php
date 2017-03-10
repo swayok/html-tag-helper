@@ -385,7 +385,7 @@ class Tag {
         }
         foreach ($attributes as $name => $value) {
             $name = mb_strtolower($name);
-            if (!is_string($value) && is_callable($value)) {
+            if (!is_string($value) && $value instanceof \Closure) {
                 $ret[] = $name . '="' . str_replace('"', '\\"', $value()) . '"';
             } else if ((!empty($value) || is_numeric($value)) && !is_array($value) && !in_array($name, $exclude, true)) {
 //                $ret[] = $name . '="' . htmlspecialchars(is_bool($value) ? $name : Translator::autoFind($value), ENT_QUOTES, 'UTF-8', false) . '"';
