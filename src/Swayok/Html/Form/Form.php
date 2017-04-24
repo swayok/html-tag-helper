@@ -64,8 +64,7 @@ class Form extends Tag {
      * @return Form
      */
     static public function init($name, $values = array(), $type = self::TYPE_URL_ENCODED, $secure = true) {
-        $form = new Form($name, $values, $type, $secure);
-        return $form;
+        return new Form($name, $values, $type, $secure);
     }
 
     /**

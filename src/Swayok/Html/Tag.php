@@ -187,8 +187,7 @@ class Tag {
      * @return $this
      */
     static public function create($attributes = array(), $tagName = null) {
-        $class = get_called_class();
-        return new $class($attributes, $tagName);
+        return new static($attributes, $tagName);
     }
 
     /**
