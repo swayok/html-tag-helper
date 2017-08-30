@@ -63,8 +63,8 @@ namespace Swayok\Html;
  * @method $this setTitle($value)
  * @method $this setHref($value)
  * @method $this setNohref($value)
- * @method int|string setWidth($value)
- * @method int|string setHeight($value)
+ * @method $this setWidth($value)
+ * @method $this setHeight($value)
  *
  * @method $this setAcceptCharset($value)
  * @method $this setAction($value)
