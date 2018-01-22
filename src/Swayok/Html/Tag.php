@@ -283,6 +283,9 @@ class Tag {
      * @return $this
      */
     public function addClass($classes) {
+        if (empty($classes) || (is_string($classes) && trim((string)$classes) === '')) {
+            return $this;
+        }
         if (empty($this->attributes['class'])) {
             $this->attributes['class'] = is_array($classes) ? implode(' ', $classes) : $classes;
         } else {
