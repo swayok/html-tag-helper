@@ -144,6 +144,7 @@ namespace Swayok\Html;
  * @method static $this a($attributes = array())
  * @method static $this button($attributes = array())
  * @method static $this p($attributes = array())
+ * @method static $this i($attributes = array())
  * @method static $this ul($attributes = array())
  * @method static $this ol($attributes = array())
  * @method static $this li($attributes = array())
@@ -168,6 +169,7 @@ class Tag {
     public $short = false;
     protected $attributesMap = array();
     protected $attributes = array();
+    protected $renderedAttributes = array();
     protected $excludeAttributes = array();
     protected $content = '';
     static protected $quickTags = array(
@@ -180,11 +182,12 @@ class Tag {
         'button'
     );
 
+
     /**
      * @param array $attributes
      * @param null|string $tagName
-     * @throws HtmlTagException
      * @return $this
+     * @throws \Swayok\Html\HtmlTagException
      */
     static public function create($attributes = array(), $tagName = null) {
         return new static($attributes, $tagName);
@@ -353,6 +356,17 @@ class Tag {
     }
 
     /**
+     * Add some already rendered and escaped attribute with value
+     * Example: Dot.js insert like '{{? !it.is_active }}disabled{{?}}'
+     * @param string $attributeWithValue
+     * @return $this
+     */
+    public function addCustomRenderedAttributeWithValue($attributeWithValue) {
+        $this->renderedAttributes[] = $attributeWithValue;
+        return $this;
+    }
+
+    /**
      * Build tag
      * @return string - html
      */
@@ -360,20 +374,35 @@ class Tag {
         return $this->buildOpenTag() . $this->buildContent() . $this->buildCloseTag();
     }
 
+    /**
+     * @return string
+     */
     public function buildOpenTag() {
-        return '<' . $this->tagName . self::buildAttributes($this->attributes, $this->excludeAttributes) . '>';
+        return '<' . $this->tagName . self::buildAttributes($this->attributes, $this->excludeAttributes, $this->renderedAttributes) . '>';
     }
 
+    /**
+     * @return string
+     */
     public function buildCloseTag() {
         return $this->short ? '' : '</' . $this->tagName . '>';
     }
 
+    /**
+     * @return string
+     */
     public function buildContent() {
         return $this->short ? '' : $this->content;
     }
 
-    static public function buildAttributes($attributes, $exclude = array()) {
-        $ret = array();
+    /**
+     * @param array $attributes
+     * @param array $exclude
+     * @param array $renderedAttributes
+     * @return string
+     */
+    static public function buildAttributes($attributes, $exclude = array(), $renderedAttributes = array()) {
+        $ret = $renderedAttributes;
         if (isset($attributes['name']) && is_int($attributes['name'])) {
             unset($attributes['name']);
         }
@@ -388,7 +417,13 @@ class Tag {
                 $ret[] = $name . '="' . str_replace('"', '\\"', $value()) . '"';
             } else if ((!empty($value) || is_numeric($value)) && !is_array($value) && !in_array($name, $exclude, true)) {
 //                $ret[] = $name . '="' . htmlspecialchars(is_bool($value) ? $name : Translator::autoFind($value), ENT_QUOTES, 'UTF-8', false) . '"';
-                $ret[] = $name . '="' . htmlspecialchars(is_bool($value) ? $name : $value, ENT_QUOTES, 'UTF-8', false) . '"';
+                if (is_bool($value)) {
+                    if ($value) {
+                        $ret[] = $name;
+                    }
+                } else {
+                    $ret[] = $name . '="' . htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false) . '"';
+                }
             }
         }
         return ' ' . implode(' ', $ret) . ' ';
