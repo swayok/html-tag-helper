@@ -26,7 +26,6 @@
     }
   ],
   "require": {
-    "php": ">=5.3",
-    "swayok/utils": "master@dev"
+    "php": ">=5.3"
   }
 }
