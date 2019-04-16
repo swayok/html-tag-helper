@@ -155,6 +155,7 @@ namespace Swayok\Html;
  * @method static $this thead($attributes = array())
  * @method static $this tbody($attributes = array())
  * @method static $this option($attributes = array())
+ * @method static $this optgroup($attributes = array())
  * @method static $this img($attributes = array())
  * @method static $this pre($attributes = array())
  * @method static $this script($attributes = array())
@@ -163,6 +164,9 @@ namespace Swayok\Html;
  * @method static $this h3($attributes = array())
  * @method static $this h4($attributes = array())
  * @method static $this h5($attributes = array())
+ * @method static $this section($attributes = array())
+ * @method static $this header($attributes = array())
+ * @method static $this footer($attributes = array())
  */
 class Tag {
     public $tagName = 'div';
@@ -176,10 +180,11 @@ class Tag {
         'dl', 'dt', 'dd',
         'div', 'span', 'a', 'p', 'nav',
         'ul', 'ol', 'li',
-        'option', 'img', 'pre',
+        'option', 'optgroup', 'img', 'pre',
         'table', 'tr', 'td', 'th', 'thead', 'tbody',
         'script', 'h1', 'h2', 'h3', 'h4', 'h5',
-        'button'
+        'button', 
+        'header', 'footer'
     );
 
 
